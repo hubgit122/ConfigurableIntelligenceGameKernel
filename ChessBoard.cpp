@@ -8,24 +8,25 @@
 
 namespace CIG
 {
-	const PointOrVector Chessboard::DISTAINATION[CIGRuleConfig::PLAYER_NUM] = 
-	{
-		PointOrVector(4,0),
-		PointOrVector(0,4),
-		PointOrVector(4,12),
-		PointOrVector(12,16),
-		PointOrVector(16,12),
-		PointOrVector(12,4),
-	};
+	//const PointOrVector Chessboard::DISTAINATION[CIGRuleConfig::PLAYER_NUM] = 
+	//{
+	//	PointOrVector(4,0),
+	//	PointOrVector(0,4),
+	//	PointOrVector(4,12),
+	//	PointOrVector(12,16),
+	//	PointOrVector(16,12),
+	//	PointOrVector(12,4),
+	//};
 	// 按配置初始化很少执行, 所以可以速度慢一点.
 	CIG::Chessboard::Chessboard() : nowRound(0), nowTurn((CIGRuleConfig::PLAYER_NAMES)0), pickedChessmanByIndex(), currentBannedMotions(),chessmanIndexBoard()
 	{
-		players[0] = Player(CIGRuleConfig::A, GUI::askForMove, this);												//测试. 
-		players[1] = Player(CIGRuleConfig::B, GraphSearchEngine::makeBestMove, this);
-		players[2] = Player(CIGRuleConfig::C, GUI::askForMove, this);
-		players[3] = Player(CIGRuleConfig::D, GraphSearchEngine::makeBestMove, this);
-		players[4] = Player(CIGRuleConfig::E, GraphSearchEngine::makeBestMove, this);
-		players[5] = Player(CIGRuleConfig::F, GraphSearchEngine::makeBestMove, this);			// TO-DO  应该是智能引擎实例而不是player类实例.
+		// TO-DO
+		//players[0] = Player(CIGRuleConfig::A, GUI::askForMove, this);												//测试. 
+		//players[1] = Player(CIGRuleConfig::B, GraphSearchEngine::makeBestMove, this);
+		//players[2] = Player(CIGRuleConfig::C, GUI::askForMove, this);
+		//players[3] = Player(CIGRuleConfig::D, GraphSearchEngine::makeBestMove, this);
+		//players[4] = Player(CIGRuleConfig::E, GraphSearchEngine::makeBestMove, this);
+		//players[5] = Player(CIGRuleConfig::F, GraphSearchEngine::makeBestMove, this);			// TO-DO  应该是智能引擎实例而不是player类实例.
 
 		memset(loose, 0, sizeof(bool)*CIGRuleConfig::PLAYER_NUM);
 		memset(win, 0, sizeof(bool)*CIGRuleConfig::PLAYER_NUM);
@@ -112,7 +113,7 @@ namespace CIG
 
 	int CIG::Chessboard::getEvaluation( CIGRuleConfig::PLAYER_NAMES p ) const
 	{
-		// TO-DO 还要加入胜负, 包括平局, 判负
+		//可以加入胜负, 包括平局, 判负
 		int resualt = 0;
 
 		for (int i=0;i<CIGRuleConfig::PLAYER_NUM;++i)
@@ -123,10 +124,6 @@ namespace CIG
 			}
 		}
 		resualt = evaluations[p]+ (resualt)/(CIGRuleConfig::PLAYER_NUM-1);
-
-		/*if ()
-		{
-		}*/
 
 		return resualt;
 	}
@@ -178,13 +175,14 @@ namespace CIG
 		{
 			if (refreshEvaluations)
 			{
-				PointOrVector srcVector = DISTAINATION[nowTurn]-c->coordinate;
-				PointOrVector distVector = DISTAINATION[nowTurn]-p;
-				int srcDistance = ((srcVector[0]^srcVector[1])>=0)? max(abs(srcVector[0]), abs(srcVector[1]) ) : (abs(srcVector[0])+abs(srcVector[1]));
-				int distDistance = ((distVector[0]^distVector[1])>=0)? max(abs(distVector[0]), abs(distVector[1]) ) : (abs(distVector[0])+abs(distVector[1]));
+				// TO-DO
+				//PointOrVector srcVector = DISTAINATION[nowTurn]-c->coordinate;
+				//PointOrVector distVector = DISTAINATION[nowTurn]-p;
+				//int srcDistance = ((srcVector[0]^srcVector[1])>=0)? max(abs(srcVector[0]), abs(srcVector[1]) ) : (abs(srcVector[0])+abs(srcVector[1]));
+				//int distDistance = ((distVector[0]^distVector[1])>=0)? max(abs(distVector[0]), abs(distVector[1]) ) : (abs(distVector[0])+abs(distVector[1]));
 
-				evaluations[nowTurn] += srcDistance*srcDistance - distDistance*distDistance;
-				win[nowTurn] = (evaluations[nowTurn] == 1920);			//调试输出得出的结果. 
+				//evaluations[nowTurn] += srcDistance*srcDistance - distDistance*distDistance;
+				//win[nowTurn] = (evaluations[nowTurn] == 1920);			//调试输出得出的结果. 
 			}
 			chessmanIndexBoard[p] = c->chessmanIndex;
 			if(!c->onPutIntent(p))
@@ -281,13 +279,12 @@ namespace CIG
 
 	void Chessboard::undoMove( Move& move , bool refreshEvaluations)
 	{
-		for (int i = move.size-1; i >=0; --i)				////应该倒着恢复!!!
+		for (int i = move.size-1; i >=0; --i)
 		{
 			undoOperation(move[i], refreshEvaluations);
 		}
 	}
 
-	// TO-DO这个函数还没有写就拿去调试了, 当然不会有好结果! 
 	void Chessboard::undoOperation( Motion& operation , bool refreshEvaluations)
 	{
 		switch (operation.operation)
@@ -320,7 +317,7 @@ namespace CIG
 
 	void Chessboard::undoWholeMove( Move& move , bool refreshEvaluations)
 	{
-		undoChangeTurn();				//穿脱原理
+		undoChangeTurn();
 		undoMove(move,refreshEvaluations);
 	}
 
@@ -333,14 +330,15 @@ namespace CIG
 	{
 		if (refreshEvaluations)
 		{
-			win[nowTurn] = false;
+			// TO-DO
+			//win[nowTurn] = false;
 
-			PointOrVector srcVector = DISTAINATION[nowTurn]-c->coordinate;
-			PointOrVector distVector = DISTAINATION[nowTurn]-p;
-			int srcDistance = ((srcVector[0]^srcVector[1])>=0)? max(abs(srcVector[0]), abs(srcVector[1]) ) : (abs(srcVector[0])+abs(srcVector[1]));
-			int distDistance = ((distVector[0]^distVector[1])>=0)? max(abs(distVector[0]), abs(distVector[1]) ) : (abs(distVector[0])+abs(distVector[1]));
+			//PointOrVector srcVector = DISTAINATION[nowTurn]-c->coordinate;
+			//PointOrVector distVector = DISTAINATION[nowTurn]-p;
+			//int srcDistance = ((srcVector[0]^srcVector[1])>=0)? max(abs(srcVector[0]), abs(srcVector[1]) ) : (abs(srcVector[0])+abs(srcVector[1]));
+			//int distDistance = ((distVector[0]^distVector[1])>=0)? max(abs(distVector[0]), abs(distVector[1]) ) : (abs(distVector[0])+abs(distVector[1]));
 
-			evaluations[nowTurn] += srcDistance*srcDistance - distDistance*distDistance;
+			//evaluations[nowTurn] += srcDistance*srcDistance - distDistance*distDistance;
 		}
 		pickedChessmanByIndex.deleteAtNoReturn(pickedChessmanByIndex.size-1);
 		chessmanIndexBoard[p] = c->chessmanIndex;
@@ -391,12 +389,18 @@ namespace CIG
 
 	void Chessboard::refreshEvaluations()
 	{
-
+		// TO-DO
 	}
 
 	bool Chessboard::gameOver()
 	{
-		bool result = win[0]&&win[1]&&win[2]&&win[3]&&win[4]&&win[5];
-		return result;
+		for (int i=0; i<CIGRuleConfig::PLAYER_NUM;++i)
+		{
+			if (!win[i])
+			{
+				return false; 
+			}
+		}
+		return win;
 	}
 }

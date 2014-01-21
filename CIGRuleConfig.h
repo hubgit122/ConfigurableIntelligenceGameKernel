@@ -24,34 +24,34 @@ namespace CIG
 				管理全局类型id及名字
 			**************************************************************************/
 		public:
-			enum CLASS_TYPES
-			{
-				GAME_CLASS,
-				PLAYER,
-				PLAYERS,
-				CHESSMAN_OPERATIONS,
-				OPERATION_STACK,
-				CHESSMAN_MOTION_STACK,
-				MOTION_STATUS,
-				POINTS,
-				LINES,
-				CHESSMAN,
-				CHESSMAN_MOTION,
-				CHESSMAN_GROUP,
-				CHESSBOARD_STACK,
-				LATTICE_GROUP
-			};
+			//enum CLASS_TYPES
+			//{
+			//	GAME_CLASS,
+			//	PLAYER,
+			//	PLAYERS,
+			//	CHESSMAN_OPERATIONS,
+			//	OPERATION_STACK,
+			//	CHESSMAN_MOTION_STACK,
+			//	MOTION_STATUS,
+			//	POINTS,
+			//	LINES,
+			//	CHESSMAN,
+			//	CHESSMAN_MOTION,
+			//	CHESSMAN_GROUP,
+			//	CHESSBOARD_STACK,
+			//	LATTICE_GROUP
+			//};
 
 			enum PLAYER_NAMES
 			{
-				A,B,C,D,E,F,
+				//A,B,C,D,E,F,// TO-DO
 				PLAYER_NUM,				//用种类来定颜色是不正确的, 调试完了要改进.
 			};
 
 			enum CHESSMAN_TYPES
 			{
 				NOCHESSMAN = -1,
-				CHESS,										//跳棋只有一种棋子
+				// TO-DO //CHESS,										//跳棋只有一种棋子
 				CHESSMAN_TYPE_NUM,			//总数
 			};
 
@@ -87,6 +87,9 @@ namespace CIG
 				ALLY,
 			};
 
+			static const int INI_BOARD_WIDTH_LOG2 = /*5*/;				// TO-DO
+			static const int INI_BOARD_HEIGHT_LOG2 = /*5*/;			// TO-DO
+
 			static int INI_CHESSMAN_NUM_OF_ONE_PLAYER;
 			static bool CHESSMAN_IN_LATTICE;
 			static const int INI_CHESSMAN_GROUP_SIZE = 64;
@@ -94,8 +97,6 @@ namespace CIG
 			static const int INT_BANNED_MOTION_SIZE = 16;
 			static const int INT_MARKED_POINTS_SIZE = 32;
 			static const int INT_BOARD_HISTORY_STACK_SIZE = 32;
-			static const int INI_BOARD_WIDTH_LOG2 = 5;
-			static const int INI_BOARD_HEIGHT_LOG2 = 5;
 			static const int ROUND_LIMIT = -1;
 			static const float TIME_LIMIT;
 

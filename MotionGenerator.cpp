@@ -192,19 +192,19 @@ void CIG::MotionGenerator::generateMotionsForOneOperation( OperationStack& opera
 			break;
 
 		case CIGRuleConfig::ADD:
-			for (int i=0; i< (1<<CIGRuleConfig::INI_BOARD_WIDTH_LOG2) ;++i)
-			{
-				for (int j=0;j< (1<<CIGRuleConfig::INI_BOARD_HEIGHT_LOG2);++j)
-				{
-					PointOrVector dist =  PointOrVector(i,j);
-					if (chessboard[dist]||!CIGRuleConfig::BOARD_RANGE[j][i])
-					{
-						continue;
-					}
-					
-					testAndSave(s, NULL, dist, runningMotionStack);
-				}
-			}
+			//for (int i=0; i< (1<<CIGRuleConfig::INI_BOARD_WIDTH_LOG2) ;++i)
+			//{
+			//	for (int j=0;j< (1<<CIGRuleConfig::INI_BOARD_HEIGHT_LOG2);++j)
+			//	{
+			//		PointOrVector dist =  PointOrVector(i,j);
+			//		if (chessboard[dist]||!CIGRuleConfig::BOARD_RANGE[j][i])
+			//		{
+			//			continue;
+			//		}
+			//		
+			//		testAndSave(s, NULL, dist, runningMotionStack);
+			//	}
+			//}
 			break;
 
 		case CIGRuleConfig::PICK:
@@ -229,73 +229,73 @@ void CIG::MotionGenerator::generateMotionsForOneOperation( OperationStack& opera
 			break;
 
 		case CIGRuleConfig::PUT:
-			{
-				ChessmanIndex& cl = chessboard.pickedChessmanByIndex[-1];
-				Chessman* c = &chessboard.players[cl.player].ownedChessmans[cl.index];
+			//{
+			//	ChessmanIndex& cl = chessboard.pickedChessmanByIndex[-1];
+			//	Chessman* c = &chessboard.players[cl.player].ownedChessmans[cl.index];
 
-				if(logMotionStack.size>=3)
-				{
-					PointOrVector diff = (logMotionStack[-3].distination-logMotionStack[-2].distination);
-					if (abs(diff[0]|diff[1])==1)			//单跳
-					{
-						return;
-					}
-				}
+			//	if(logMotionStack.size>=3)
+			//	{
+			//		PointOrVector diff = (logMotionStack[-3].distination-logMotionStack[-2].distination);
+			//		if (abs(diff[0]|diff[1])==1)			//单跳
+			//		{
+			//			return;
+			//		}
+			//	}
 
-				for (int i=GUI::LINE_DIRECTION.size()-1; i>=0; --i)
-				{
-					for (int j=-1; j<2; j+=2)
-					{
-						PointOrVector& delt = j*GUI::LINE_DIRECTION.at(i);
-						Chessman* oneStep = chessboard[c->coordinate+delt];
-						Chessman* twoStep = chessboard[c->coordinate+2*delt];
-						PointOrVector dist;
+			//	for (int i=GUI::LINE_DIRECTION.size()-1; i>=0; --i)
+			//	{
+			//		for (int j=-1; j<2; j+=2)
+			//		{
+			//			PointOrVector& delt = j*GUI::LINE_DIRECTION.at(i);
+			//			Chessman* oneStep = chessboard[c->coordinate+delt];
+			//			Chessman* twoStep = chessboard[c->coordinate+2*delt];
+			//			PointOrVector dist;
 
-						if (logMotionStack.size==1)			//还未确定是否连跳
-						{
-							if (oneStep&&twoStep)
-							{
-								continue;
-							}
-							else if (oneStep)
-							{
-								dist = c->coordinate+2*delt;
-							}
-							else
-							{
-								dist = c->coordinate+delt;
-							}
-						}
-						else														//已经确定为连跳
-						{
-							if (oneStep&&!twoStep)
-							{
-								dist = c->coordinate + 2*delt;
-							}
-							else
-							{
-								continue;
-							}
+			//			if (logMotionStack.size==1)			//还未确定是否连跳
+			//			{
+			//				if (oneStep&&twoStep)
+			//				{
+			//					continue;
+			//				}
+			//				else if (oneStep)
+			//				{
+			//					dist = c->coordinate+2*delt;
+			//				}
+			//				else
+			//				{
+			//					dist = c->coordinate+delt;
+			//				}
+			//			}
+			//			else														//已经确定为连跳
+			//			{
+			//				if (oneStep&&!twoStep)
+			//				{
+			//					dist = c->coordinate + 2*delt;
+			//				}
+			//				else
+			//				{
+			//					continue;
+			//				}
 
-							bool flag = false;
-							for (int j=logMotionStack.size-1;j>=0;--j)
-							{
-								if (logMotionStack[j].operation==CIGRuleConfig::PICK&&logMotionStack[j].distination==dist)
-								{
-									flag = true;
-									break;
-								}
-							}
-							if (flag)
-							{
-								continue;
-							}
-						}
+			//				bool flag = false;
+			//				for (int j=logMotionStack.size-1;j>=0;--j)
+			//				{
+			//					if (logMotionStack[j].operation==CIGRuleConfig::PICK&&logMotionStack[j].distination==dist)
+			//					{
+			//						flag = true;
+			//						break;
+			//					}
+			//				}
+			//				if (flag)
+			//				{
+			//					continue;
+			//				}
+			//			}
 
-						testAndSave(s, c, dist, runningMotionStack);
-					}
-				}
-			}
+			//			testAndSave(s, c, dist, runningMotionStack);
+			//		}
+			//	}
+			//}
 			break;
 		
 		case CIGRuleConfig::END:

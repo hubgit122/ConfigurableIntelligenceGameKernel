@@ -212,10 +212,8 @@
     <ClInclude Include="CIGObject.h" />
     <ClInclude Include="CIGRuleConfig.h" />
     <ClInclude Include="ConfigurableIntelligenceGame.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="GraphSearchEngine.h" />
     <ClInclude Include="GUI.h" />
-    <ClInclude Include="IntellegenceEngine.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Motion.h" />
     <ClInclude Include="MotionGenerator.h" />
@@ -249,19 +247,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="GraphSearchEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GUI.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="IntellegenceEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
