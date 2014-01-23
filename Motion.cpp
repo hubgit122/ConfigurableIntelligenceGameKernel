@@ -29,5 +29,5 @@ void CIG::Motion::operator=( const Motion& op )
 
 bool CIG::Motion::operator==( const Motion& op ) const
 {
-	return (this->chessmanIndex.player == op.chessmanIndex.player) && (this->chessmanIndex.index == op.chessmanIndex.index) && (this->distination == op.distination) && (this->operation == op.operation)&&(this->savedCoodinate==this->savedCoodinate);
+	return (this->chessmanIndex.player == op.chessmanIndex.player) && (this->chessmanIndex.index == op.chessmanIndex.index) && (this->distination == op.distination) && (this->operation == op.operation) && (this->savedCoodinate == this->savedCoodinate);
 }

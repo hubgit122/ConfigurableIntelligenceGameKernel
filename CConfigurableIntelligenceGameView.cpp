@@ -112,7 +112,6 @@ afx_msg LRESULT CConfigurableIntelligenceGameView::OnMoveComplete(WPARAM wParam,
 {
 	getMove = false;
 	DrawBoard();
-	MessageBox(_T("switchTurn"));
 
 	if (nowBoard.gameOver())
 	{
@@ -230,6 +229,15 @@ void CConfigurableIntelligenceGameView::DrawBoard( Chessboard* cb/*= NULL*/, Mov
 	{
 		ostringstream oss;
 
+		oss << "当前玩家: " << boardToDraw.nowTurn;
+		if (boardToDraw.players[boardToDraw.nowTurn].makeBestMove==GUI::askForMove)
+		{
+			oss<<"请等待电脑走棋";
+		}
+		else
+		{
+			oss<<"当前是玩家操作的回合, 请走棋";
+		}
 		if (moveToDraw.size)
 		{
 			for (int i = 0; i < moveToDraw.size; ++i)
@@ -237,10 +245,6 @@ void CConfigurableIntelligenceGameView::DrawBoard( Chessboard* cb/*= NULL*/, Mov
 				oss << CIGRuleConfig::OPERATION_NAME[moveToDraw[i].operation] << ' ';
 				oss << moveToDraw[i].distination << "->";
 			}
-		}
-		else
-		{
-			oss << "Now Turn: " << boardToDraw.nowTurn;
 		}
 
 #ifdef UNICODE
@@ -464,6 +468,7 @@ void CConfigurableIntelligenceGameView::OnLButtonDown(UINT nFlags, CPoint point)
 	else
 	{
 #ifdef DEBUG_GENERATOR			//调试走法生成器
+
 		for (;;)
 		{
 			MotionGenerator mg(nowBoard);
@@ -479,6 +484,7 @@ void CConfigurableIntelligenceGameView::OnLButtonDown(UINT nFlags, CPoint point)
 
 			nowBoard.onChangeTurn();
 		}
+
 #endif // DEBUG_GENERATOR
 	}
 

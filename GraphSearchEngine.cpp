@@ -61,11 +61,11 @@ namespace CIG
 				vlBest = vl;        // "vlBest"就是目前要返回的最佳值，可能超出Alpha-Beta边界
 				nowBestMove.forceCopyFrom(runningMoveStack[i]);
 
-				if (CIGRuleConfig::PLAYER_NUM==2)
+				if (CIGRuleConfig::PLAYER_NUM == 2)
 				{
 					if (vl >= beta)   // 找到一个Beta走法
 					{
-							break;            // Beta截断
+						break;            // Beta截断
 					}
 					else if (vl > alpha)   // 找到一个PV走法
 					{

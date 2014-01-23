@@ -11,9 +11,7 @@ namespace CIG
 	// 按配置初始化很少执行, 所以可以速度慢一点.
 	CIG::Chessboard::Chessboard() : nowRound(0), nowTurn((CIGRuleConfig::PLAYER_NAMES)0), pickedChessmanByIndex(), currentBannedMotions(), chessmanIndexBoard()
 	{
-		players[0] = Player(CIGRuleConfig::HUMAN, GUI::askForMove, this);
-		players[1] = Player(CIGRuleConfig::COMPUTER, GraphSearchEngine::makeBestMove, this);			// TO-DO  应该是智能引擎实例而不是player类实例.
-
+		// TO-DO 玩家的函数设置
 		memset(loose, 0, sizeof(bool)*CIGRuleConfig::PLAYER_NUM);
 		memset(win, 0, sizeof(bool)*CIGRuleConfig::PLAYER_NUM);
 
@@ -140,19 +138,19 @@ namespace CIG
 		}
 	}
 
-	//Chessman* Chessboard::onAddIntent(PointOrVector p, bool refreshEvaluations)
-	//{
-	//	Chessman* c = players[nowTurn].ownedChessmans.add(Chessman(CIGRuleConfig::CHESS, p,nowTurn, players[nowTurn].ownedChessmans.size, CIGRuleConfig::OFF_BOARD, CIGRuleConfig::ALL));
-	//	pickedChessmanByIndex.add(c->chessmanIndex);
-	//	return c;
-	//}
+	Chessman* Chessboard::onAddIntent(PointOrVector p, bool refreshEvaluations)
+	{
+		Chessman* c = players[nowTurn].ownedChessmans.add(Chessman(CIGRuleConfig::CHESS, p, nowTurn, players[nowTurn].ownedChessmans.size, CIGRuleConfig::OFF_BOARD, CIGRuleConfig::ALL));
+		pickedChessmanByIndex.add(c->chessmanIndex);
+		return c;
+	}
 
 	//穿脱原理下, 操作就是这么简单
-	//void Chessboard::undoAdd(bool refreshEvaluations)
-	//{
-	//	pickedChessmanByIndex.deleteAtNoReturn(pickedChessmanByIndex.size-1);
-	//	players[nowTurn].ownedChessmans.popNoReturn();
-	//}
+	void Chessboard::undoAdd(bool refreshEvaluations)
+	{
+		pickedChessmanByIndex.deleteAtNoReturn(pickedChessmanByIndex.size - 1);
+		players[nowTurn].ownedChessmans.popNoReturn();
+	}
 
 	bool CIG::Chessboard::onPutIntent( Chessman* c, PointOrVector p , bool refreshEvaluations)
 	{
@@ -164,14 +162,13 @@ namespace CIG
 		{
 			if (refreshEvaluations)
 			{
-				evaluations[nowTurn] += CIGRuleConfig::EVALUATIONS[nowTurn][c->chessmanType][p.x[1]][p.x[0]];
+				// TO-DO
+
 			}
+
 			chessmanIndexBoard[p] = c->chessmanIndex;
 
-			if(!c->onPutIntent(p))
-			{
-				GUI::inform("走法错误, 请重新设计. ");
-			}
+			assert(c->onPutIntent(p));    //如果不满足条件, 说明走法设计有问题.
 
 			pickedChessmanByIndex.deleteAtNoReturn(0);
 			return true;
@@ -184,6 +181,11 @@ namespace CIG
 	{
 		undoPut(c, refreshEvaluations);
 		c->coordinate = previousP;
+
+		if (refreshEvaluations)
+		{
+			// TO-DO
+		}
 	}
 
 	void CIG::Chessboard::undoPut(Chessman* c , bool refreshEvaluations /*= false*/)
@@ -191,9 +193,10 @@ namespace CIG
 		chessmanIndexBoard[c->coordinate].clear();
 		c->undoPut();
 		pickedChessmanByIndex.add(c->chessmanIndex);
+
 		if (refreshEvaluations)
 		{
-			evaluations[nowTurn] -= CIGRuleConfig::EVALUATIONS[nowTurn][c->chessmanType][c->coordinate[1]][c->coordinate[0]];
+			// TO-DO
 		}
 	}
 
@@ -228,10 +231,11 @@ namespace CIG
 		switch (op.operation)
 		{
 			case CIGRuleConfig::ADD:
-				//if (!onAddIntent(op.distination ,refreshEvaluations))
-				//{
-				//	return false;
-				//}
+				if (!onAddIntent(op.distination , refreshEvaluations))
+				{
+					return false;
+				}
+
 				break;
 
 			case CIGRuleConfig::PICK:
@@ -251,7 +255,7 @@ namespace CIG
 				break;
 
 			case CIGRuleConfig::CAPTURE:
-				if(!onCaptureIntent(&(this->players[pickedChessmanByIndex[0].player].ownedChessmans[pickedChessmanByIndex[0].index]), op.distination,refreshEvaluations))
+				if(!onCaptureIntent(&(this->players[pickedChessmanByIndex[0].player].ownedChessmans[pickedChessmanByIndex[0].index]), op.distination, refreshEvaluations))
 				{
 					return false;
 				}
@@ -290,7 +294,7 @@ namespace CIG
 		switch (operation.operation)
 		{
 			case CIGRuleConfig::ADD:
-				//undoAdd(refreshEvaluations);
+				undoAdd(refreshEvaluations);
 				break;
 
 			case CIGRuleConfig::PICK:
@@ -330,7 +334,8 @@ namespace CIG
 	{
 		if (refreshEvaluations)
 		{
-			evaluations[nowTurn] += CIGRuleConfig::EVALUATIONS[nowTurn][c->chessmanType][p[1]][p[0]];
+			// TO-DO
+
 		}
 
 		pickedChessmanByIndex.deleteAtNoReturn(pickedChessmanByIndex.size - 1);
@@ -369,10 +374,12 @@ namespace CIG
 					c->onCaptureIntent(testC);
 					chessmanIndexBoard[p].clear();
 					loose[testC->chessmanIndex.player] = (testC->chessmanType == CIGRuleConfig::KING);
+
 					if (refreshEvaluations)
 					{
 						evaluations[testC->chessmanIndex.player] -= CIGRuleConfig::EVALUATIONS[testC->chessmanIndex.player][testC->chessmanType][p.x[1]][p.x[0]];
 					}
+
 					return true;
 				}
 				else
@@ -397,6 +404,7 @@ namespace CIG
 			PointOrVector& p = c->coordinate;
 			pickedChessmanByIndex.add(c->chessmanIndex);
 			chessmanIndexBoard[c->coordinate].clear();
+
 			if (refreshEvaluations)
 			{
 				evaluations[nowTurn] -= CIGRuleConfig::EVALUATIONS[nowTurn][c->chessmanType][p.x[1]][p.x[0]];
@@ -442,6 +450,7 @@ namespace CIG
 
 	bool Chessboard::gameOver()
 	{
+		// TO-DO
 		for (int i = 0; i < CIGRuleConfig::PLAYER_NUM; ++i)
 		{
 			if (loose[i])

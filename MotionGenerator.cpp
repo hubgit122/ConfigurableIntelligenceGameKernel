@@ -231,7 +231,7 @@ void CIG::MotionGenerator::generateMotionsForOneOperation( OperationStack& opera
 					testAndSave(s, c, c->coordinate, runningMotionStack);
 				}
 			}
-			else				//除了跳棋, 都只可能满足上边的分支. 
+			else				//除了跳棋, 都只可能满足上边的分支.
 			{
 				Chessman* c = const_cast<Chessman*> (&(cg.at(logMotionStack.top().chessmanIndex.index)));
 

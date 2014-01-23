@@ -54,7 +54,6 @@ namespace CIG
 			// 注意: 因为使用了动态容器, 所有的棋子指针必须在使用时重新计算. 原则是: 当且仅当得到指针后有过增加棋子的操作(无论是否又删除了棋子)
 			//************************************
 			virtual bool onPickIntent(PointOrVector p, bool refreshEvaluations = false);
-			//virtual bool onPickIntent(Chessman* c , PointOrVector p, bool refreshEvaluations = false);
 			virtual bool onPickIntent(Chessman* c , bool refreshEvaluations = false);
 			//************************************
 			// Method:    onAddIntent
@@ -65,9 +64,8 @@ namespace CIG
 			// Parameter: PointOrVector p
 			// 注意用法: 预告在某处增加一枚棋子, 返回棋子的指针, 但是还没有真正在游戏中放下这个子.
 			//************************************
-			//virtual Chessman* onAddIntent(PointOrVector p = PointOrVector(-1,-1), bool refreshEvaluations = false);
-			virtual bool onPutIntent(Chessman* c, PointOrVector p, bool refreshEvaluations = false);
-			//virtual bool onPutIntent(Chessman* c, bool refreshEvaluations = false);
+			virtual Chessman* onAddIntent(PointOrVector p = PointOrVector(-1,-1), bool refreshEvaluations = false);
+			virtual bool onPutIntent(Chessman* c, PointOrVector p = PointOrVector(-1, -1), bool refreshEvaluations = false);
 			virtual bool onCaptureIntent(Chessman* c, PointOrVector p, bool refreshEvaluations = false);
 			virtual bool onPromotionIntent(Chessman* c, CIGRuleConfig::CHESSMAN_TYPES t, bool refreshEvaluations = false);
 			virtual bool onPromotionIntent(PointOrVector p, CIGRuleConfig::CHESSMAN_TYPES t, bool refreshEvaluations = false);
@@ -89,12 +87,11 @@ namespace CIG
 			// 还要特别注意undoPut的默认实现并没有进行棋子坐标的恢复. 也就是说在执行put和unput之后, 得到的结果是其余不变, 但是棋子的坐标从pick的发生地变为put的目的地.
 			// 如果要实现棋子坐标恢复的话需要增加很多结构, 并不是直接保存一个值就行的. 因为棋子可能经历类似put, put, unput, unput的过程.
 			//************************************
-			//virtual void undoAdd(bool refreshEvaluations = false);
+			virtual void undoAdd(bool refreshEvaluations = false);
 			virtual void undoPick(Chessman* c , PointOrVector p, bool refreshEvaluations = false);
 			virtual void undoPut(Chessman* c, bool refreshEvaluations = false);
 			virtual void undoPut(Chessman* c, PointOrVector previousP, bool refreshEvaluations = false);
 			virtual void undoCaptured(Chessman* c, bool refreshEvaluations = false);
-			//virtual void undoCapture(Chessman* c, PointOrVector p);
 			virtual void undoPromotion(Chessman* c, CIGRuleConfig::CHESSMAN_TYPES t, bool refreshEvaluations = false);
 			virtual void undoPromotion(PointOrVector p, CIGRuleConfig::CHESSMAN_TYPES t, bool refreshEvaluations = false);
 			virtual void undoMove(Move& move, bool refreshEvaluations = false);
@@ -102,7 +99,7 @@ namespace CIG
 			virtual void undoMotion(Motion& operation, bool refreshEvaluations = false);
 			virtual void undoChangeTurn();
 			bool CIG::Chessboard::onSelfHalfOfBoard( PointOrVector& p );
-			virtual void refreshEvaluations();		//如果需要对每个局面重新计算评估值, 请实现此函数, 并在适当的地方调用. 如果采用增量计算的形式, 请忽略此函数. 
+			virtual void refreshEvaluations();		//如果需要对每个局面重新计算评估值, 请实现此函数, 并在适当的地方调用. 如果采用增量计算的形式, 请忽略此函数.
 			virtual bool gameOver();
 
 		public:
@@ -111,7 +108,6 @@ namespace CIG
 
 			Chessman* operator[](PointOrVector p)const;
 			bool beyondBoardRange( PointOrVector& p )const;
-			//bool onSelfHalfOfBoard( PointOrVector& p );
 
 			friend ostringstream& operator<<(ostringstream& oss, const Chessboard& cb)						///不加引用符号, 就会调用拷贝构造函数, id管理得乱七八糟.
 			{
