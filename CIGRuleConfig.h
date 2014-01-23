@@ -44,14 +44,21 @@ namespace CIG
 
 			enum PLAYER_NAMES
 			{
-				//A,B,C,D,E,F,// TO-DO
+				HUMAN,
+				COMPUTER,
 				PLAYER_NUM,				//用种类来定颜色是不正确的, 调试完了要改进.
 			};
 
 			enum CHESSMAN_TYPES
 			{
 				NOCHESSMAN = -1,
-				// TO-DO //CHESS,										//跳棋只有一种棋子
+				KING,								//将
+				ADVISOR,							//士
+				ELEPHANT,						//象
+				HORSE,								//马
+				CHAROIT,							//车
+				CANNON,						//炮
+				PAWN,								//兵
 				CHESSMAN_TYPE_NUM,			//总数
 			};
 
@@ -70,7 +77,7 @@ namespace CIG
 
 			static char* OPERATION_NAME[END];
 
-			static const OPERATIONS operationGraph[END][END+ 1];
+			static const OPERATIONS operationGraph[END][END + 1];
 
 			enum CHESSMAN_STATUS
 			{
@@ -87,8 +94,8 @@ namespace CIG
 				ALLY,
 			};
 
-			static const int INI_BOARD_WIDTH_LOG2 = /*5*/;				// TO-DO
-			static const int INI_BOARD_HEIGHT_LOG2 = /*5*/;			// TO-DO
+			static const int INI_BOARD_WIDTH_LOG2 = 5;				// TO-DO
+			static const int INI_BOARD_HEIGHT_LOG2 = 5;			// TO-DO
 
 			static int INI_CHESSMAN_NUM_OF_ONE_PLAYER;
 			static bool CHESSMAN_IN_LATTICE;
@@ -102,7 +109,7 @@ namespace CIG
 
 			static const bool BOARD_RANGE[1 << INI_BOARD_HEIGHT_LOG2][1 << INI_BOARD_WIDTH_LOG2];
 			static const CHESSMAN_TYPES INI_BOARD[PLAYER_NUM][1 << INI_BOARD_HEIGHT_LOG2][1 << INI_BOARD_WIDTH_LOG2];
-			//static const int EVALUATIONS[PLAYER_NUM][CHESSMAN_TYPE_NUM][1 << INI_BOARD_HEIGHT_LOG2][1 << INI_BOARD_WIDTH_LOG2];
+			static const int EVALUATIONS[PLAYER_NUM][CHESSMAN_TYPE_NUM][1 << INI_BOARD_HEIGHT_LOG2][1 << INI_BOARD_WIDTH_LOG2];
 	};
 }
 

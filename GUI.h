@@ -33,14 +33,14 @@ namespace CIG
 			static CEvent drawComplete;
 			static CEvent moveComplete;
 			static CConfigurableIntelligenceGameView* cigView;
-			static void drawBoard(Chessboard* cb = NULL, void* move =NULL);
+			static void drawBoard(Chessboard* cb = NULL, void* move = NULL);
 			static void inform(const string& messsage, bool exit = false);
 			static void exit();
 			static UINT runThread(LPVOID pParam);
 			static void postMessage( UINT msg, WPARAM wp, LPARAM  lp);
 
-			static void askForMove(Chessboard*cb, void* op);
-			static void GUI::getInput(PointOrVector&dist, UINT& msg);
+			static void askForMove(Chessboard* cb, void* op);
+			static void GUI::getInput(PointOrVector& dist, UINT& msg);
 
 			/*************************************************************************
 				设置棋盘绘制参数

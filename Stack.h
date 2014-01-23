@@ -69,7 +69,7 @@ namespace CIG
 	}
 
 	template <class T, unsigned short INI_DEPTH, unsigned short DEPTH_INCRE>
-	Stack<T, INI_DEPTH, DEPTH_INCRE>::Stack(){}
+	Stack<T, INI_DEPTH, DEPTH_INCRE>::Stack() {}
 
 	template <class T, unsigned short INI_DEPTH, unsigned short DEPTH_INCRE>
 	CIG::Stack<T, INI_DEPTH, DEPTH_INCRE>::Stack( const Stack& s ): Array(s) {}

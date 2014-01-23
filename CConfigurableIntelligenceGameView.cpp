@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "ConfigurableIntelligenceGame.h"
-#include "CConfigurableIntelligenceGameView.h" 
+#include "CConfigurableIntelligenceGameView.h"
 #include "GUI.h"
 #include "Player.h"
 #include "Chessman.h"
@@ -20,7 +20,7 @@ using namespace CIG;
 #endif
 
 
-CConfigurableIntelligenceGameView::CConfigurableIntelligenceGameView(): nowBoard(),moveOfLastRound(),moveComplete()
+CConfigurableIntelligenceGameView::CConfigurableIntelligenceGameView(): nowBoard(), moveOfLastRound(), moveComplete()
 {
 	//这里的初始化会乱掉. 所以还是在别处再初始化一次吧.
 
@@ -48,6 +48,7 @@ int CConfigurableIntelligenceGameView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 CConfigurableIntelligenceGameView::~CConfigurableIntelligenceGameView()
 {
 	GUI::cigView = NULL;
+
 	if (m_GameThread)
 	{
 		m_GameThread->PostThreadMessage(WM_QUIT, 0, 0);
@@ -81,7 +82,7 @@ BOOL CConfigurableIntelligenceGameView::PreCreateWindow(CREATESTRUCT& cs)
 	cs.dwExStyle |= WS_EX_CLIENTEDGE;
 	cs.style &= ~WS_BORDER;
 	cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS,
-		::LoadCursor(NULL, IDC_ARROW), reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1), NULL);
+									   ::LoadCursor(NULL, IDC_ARROW), reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1), NULL);
 
 	return TRUE;
 }
@@ -150,12 +151,12 @@ void TransparentBlt2( HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWidt
 	if (nWidthDest == nWidthSrc && nHeightDest == nHeightSrc)
 	{
 		BitBlt(hImageDC, 0, 0, nWidthDest, nHeightDest,
-			hdcSrc, nXOriginSrc, nYOriginSrc, SRCCOPY);
+			   hdcSrc, nXOriginSrc, nYOriginSrc, SRCCOPY);
 	}
 	else
 	{
 		StretchBlt(hImageDC, 0, 0, nWidthDest, nHeightDest,
-			hdcSrc, nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, SRCCOPY);
+				   hdcSrc, nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, SRCCOPY);
 	}
 
 	SetBkColor(hImageDC, crTransparent);
@@ -166,9 +167,9 @@ void TransparentBlt2( HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWidt
 	SetBkColor(hdcDest, RGB(255, 255, 255));
 	SetTextColor(hdcDest, RGB(0, 0, 0));
 	BitBlt(hdcDest, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest,
-		hMaskDC, 0, 0, SRCAND);
+		   hMaskDC, 0, 0, SRCAND);
 	BitBlt(hdcDest, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest,
-		hImageDC, 0, 0, SRCPAINT);
+		   hImageDC, 0, 0, SRCPAINT);
 
 	SelectObject(hImageDC, hOldImageBMP);
 	DeleteDC(hImageDC);
@@ -186,8 +187,8 @@ bool yaheiInstalled()
 	DWORD   count =   256;
 	byte   mstr[256] = "";
 	ires = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-		_T("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"),
-		0, KEY_READ, &hMyKey);
+						_T("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"),
+						0, KEY_READ, &hMyKey);
 
 	if(ERROR_SUCCESS == ires)
 	{
@@ -204,7 +205,7 @@ void CConfigurableIntelligenceGameView::WrapChessWithFrame(CDC& dc, PointOrVecto
 	CPen pen(PS_SOLID, GUI::latticePenWidth, color);
 	CPen* oldPen = dc.SelectObject(&pen);
 
-	dc.Rectangle(roundInt(xy.x[0] - GUI::chessmanRect.x[0] / 2), roundInt(xy.x[1] - GUI::chessmanRect.x[1] / 2),  roundInt(xy.x[0] +GUI::chessmanRect.x[0] / 2), roundInt(xy.x[1] + GUI::chessmanRect.x[1] / 2) );
+	dc.Rectangle(roundInt(xy.x[0] - GUI::chessmanRect.x[0] / 2), roundInt(xy.x[1] - GUI::chessmanRect.x[1] / 2),  roundInt(xy.x[0] + GUI::chessmanRect.x[0] / 2), roundInt(xy.x[1] + GUI::chessmanRect.x[1] / 2) );
 
 	dc.SelectObject(oldBrush);
 	dc.SelectObject(oldPen);
@@ -216,37 +217,39 @@ void CConfigurableIntelligenceGameView::DrawBoard( Chessboard* cb/*= NULL*/, Mov
 
 	CRect rect;
 	GetClientRect(&rect);
-	Chessboard& boardToDraw = cb?(*cb):this->nowBoard;
-	Move& moveToDraw = move?(*move):this->moveOfLastRound;
+	Chessboard& boardToDraw = cb ? (*cb) : this->nowBoard;
+	Move& moveToDraw = move ? (*move) : this->moveOfLastRound;
 
-	CDC memClientDC;			//暂存dc, 双缓冲绘图. 
+	CDC memClientDC;			//暂存dc, 双缓冲绘图.
 	memClientDC.CreateCompatibleDC(&dc);
 	CBitmap memBitmap;
 	memBitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
 	CBitmap* oldMemBitmap = memClientDC.SelectObject(&memBitmap);
-	
+
 	//更新状态栏
 	{
 		ostringstream oss;
+
 		if (moveToDraw.size)
 		{
-			for (int i=0; i<moveToDraw.size;++i)
+			for (int i = 0; i < moveToDraw.size; ++i)
 			{
-				oss<<CIGRuleConfig::OPERATION_NAME[moveToDraw[i].operation]<<' ';
-				oss<<moveToDraw[i].distination<<"->";
+				oss << CIGRuleConfig::OPERATION_NAME[moveToDraw[i].operation] << ' ';
+				oss << moveToDraw[i].distination << "->";
 			}
 		}
 		else
 		{
-			oss<<"Now Turn: "<<boardToDraw.nowTurn;
+			oss << "Now Turn: " << boardToDraw.nowTurn;
 		}
+
 #ifdef UNICODE
 		std::wstring stemp = s2ws(oss.str()); // Temporary buffer is required
 		LPCWSTR result = stemp.c_str();
 #else
 		LPCWSTR result = messsage.c_str();
 #endif
-		this->SendMessage(WM_STATUS_TEXT,(WPARAM)result);
+		this->SendMessage(WM_STATUS_TEXT, (WPARAM)result);
 	}
 
 	//画棋盘
@@ -264,22 +267,25 @@ void CConfigurableIntelligenceGameView::DrawBoard( Chessboard* cb/*= NULL*/, Mov
 	{
 		CFont* pOldFont = NULL;
 		CFont font;
+
 		if (GUI::namedChessman)
 		{
 			font.CreatePointFont(roundInt(0.5 * 10 * min(GUI::chessmanRect.x[0], GUI::chessmanRect.x[1])), _T("华文行楷"), NULL);
 			pOldFont = memClientDC.SelectObject(&font);
 			memClientDC.SetStretchBltMode(COLORONCOLOR);			// 调整像素模式, 让贴图好看一点
 		}
+
 		memClientDC.SetBkMode(TRANSPARENT);
 
 		for (int p = 0; p < CIGRuleConfig::PLAYER_NUM; ++p)				//每个玩家
 		{
 			for (int c = boardToDraw.players[p].ownedChessmans.size - 1; c >= 0; --c)		//每个棋子
 			{
-				if (boardToDraw.players[p].ownedChessmans[c].status==CIGRuleConfig::CAPTURED)		//被吃不画
+				if (boardToDraw.players[p].ownedChessmans[c].status == CIGRuleConfig::CAPTURED)		//被吃不画
 				{
 					continue;
 				}
+
 				CDC chessDC;
 				chessDC.CreateCompatibleDC(&memClientDC);
 
@@ -307,18 +313,19 @@ void CConfigurableIntelligenceGameView::DrawBoard( Chessboard* cb/*= NULL*/, Mov
 		}
 
 		//标记上次走法
-		for (int i = moveToDraw.size-1; i>=0; --i)
+		for (int i = moveToDraw.size - 1; i >= 0; --i)
 		{
-			if ((moveToDraw[i].operation == CIGRuleConfig::PUT)||(moveToDraw[i].operation == CIGRuleConfig::PICK))
+			if ((moveToDraw[i].operation == CIGRuleConfig::PUT) || (moveToDraw[i].operation == CIGRuleConfig::PICK))
 			{
 				ChessmanIndex& ci = moveToDraw[i].chessmanIndex;
 
-				if (moveToDraw[i].distination != PointOrVector(-1,-1))
+				if (moveToDraw[i].distination != PointOrVector(-1, -1))
 				{
 					WrapChessWithFrame(memClientDC, moveToDraw[i].distination);
 				}
 			}
 		}
+
 		if (GUI::namedChessman)
 		{
 			memClientDC.SelectObject(pOldFont);
@@ -349,14 +356,14 @@ void CConfigurableIntelligenceGameView::GenerateBoardBaseDC(CDC& boardBaseDC, CB
 	latticeBitmap.CreateCompatibleBitmap(&boardBaseDC, rect.Width(), rect.Height());
 	addtionalBitmap.CreateCompatibleBitmap(&boardBaseDC, rect.Width(), rect.Height());
 	CBitmap* oldLatticeBitmap = latticeDC.SelectObject(&latticeBitmap),
-		*oldAdditionalBitmap = addtionalDC.SelectObject(&addtionalBitmap);
+			 *oldAdditionalBitmap = addtionalDC.SelectObject(&addtionalBitmap);
 
 	latticeDC.StretchBlt(0, 0, rect.Width(), rect.Height(), NULL, 0, 0, 0, 0, BLACKNESS);		//纯黑
 	addtionalDC.StretchBlt(0, 0, rect.Width(), rect.Height(), NULL, 0, 0, 0, 0, BLACKNESS);		//纯黑
 
 	CPen pen(PS_SOLID, GUI::latticePenWidth, RGB(255, 255, 255));					//用于画格点的画笔.
 	CPen* oldLatticePen = latticeDC.SelectObject(&pen),
-		*oldAdditionalPen = addtionalDC.SelectObject(&pen);
+		  *oldAdditionalPen = addtionalDC.SelectObject(&pen);
 
 	latticeDC.SelectStockObject(NULL_BRUSH);
 	addtionalDC.SelectStockObject(NULL_BRUSH);
@@ -447,14 +454,32 @@ void CConfigurableIntelligenceGameView::GenerateBoardBaseDC(CDC& boardBaseDC, CB
 void CConfigurableIntelligenceGameView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-
-	PointOrVector lp = GUI::getLogicalCoordination(point.x, point.y);
-
 	if (getMove)
 	{
+		PointOrVector lp = GUI::getLogicalCoordination(point.x, point.y);
 		GUI::guiPoint = lp;
 		GUI::msg = CIG_POINT;
 		GUI::inputGot.SetEvent();
+	}
+	else
+	{
+#ifdef DEBUG_GENERATOR			//调试走法生成器
+		for (;;)
+		{
+			MotionGenerator mg(nowBoard);
+			mg.generateMoves();
+
+			for (int i = 0; i < mg.moveStack.size ; ++i)
+			{
+				nowBoard.onMoveIntent(mg.moveStack[i]);
+				DrawBoard();
+				nowBoard.undoMove(mg.moveStack[i]);
+				MessageBox(_T("ok?"));
+			}
+
+			nowBoard.onChangeTurn();
+		}
+#endif // DEBUG_GENERATOR
 	}
 
 	CWnd::OnLButtonDown(nFlags, point);
@@ -492,8 +517,8 @@ void CConfigurableIntelligenceGameView::OnChar(UINT nChar, UINT nRepCnt, UINT nF
 
 afx_msg LRESULT CConfigurableIntelligenceGameView::OnOperationText(WPARAM wParam, LPARAM lParam)
 {
-	CMainFrame* w=(CMainFrame*)AfxGetMainWnd();
-	CStatusBar& sb=w->m_wndOperationBar;
-	sb.SetPaneText(0,(LPCTSTR)wParam);
+	CMainFrame* w = (CMainFrame*)AfxGetMainWnd();
+	CStatusBar& sb = w->m_wndOperationBar;
+	sb.SetPaneText(0, (LPCTSTR)wParam);
 	return 0;
 }

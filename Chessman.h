@@ -9,12 +9,12 @@
 
 namespace CIG
 {
-	class Chessman:public CIGObject
+	class Chessman: public CIGObject
 	{
 		private:
 			Chessman();
 		public:
-			inline virtual ~Chessman(){};
+			inline virtual ~Chessman() {};
 			inline Chessman(const Chessman& c)
 			{
 				memcpy(this, &c, sizeof(Chessman));
@@ -56,7 +56,7 @@ namespace CIG
 			virtual bool onCapturedIntent();
 			virtual bool onCaptureIntent(Chessman* c);
 			virtual bool onPromotionIntent(CIGRuleConfig::CHESSMAN_TYPES t);
-			
+
 			virtual void undoPick();
 			virtual void undoPut();
 			virtual void undoCaptured();

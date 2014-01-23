@@ -32,7 +32,7 @@ class CMainFrame : public CFrameWnd
 		virtual void Dump(CDumpContext& dc) const;
 #endif
 
-		public:  // 控件条嵌入成员
+	public:  // 控件条嵌入成员
 		//CToolBar          m_wndToolBar;
 		CStatusBar        m_wndOperationBar;
 		CConfigurableIntelligenceGameView    m_wndView;
