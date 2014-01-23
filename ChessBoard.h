@@ -37,7 +37,7 @@ namespace CIG
 			static const int WIN_VALUE = MATE_VALUE >> 1; // 搜索出胜负的分值界限，超出此值就说明已经搜索出杀棋了
 			static const int ADVANCED_VALUE = 3;  // 先行权分值
 
-			//static const PointOrVector DISTAINATION[CIGRuleConfig::PLAYER_NUM];
+			static const int GRADES[3][6];
 
 			//************************************
 			// Method:    onXXIntent

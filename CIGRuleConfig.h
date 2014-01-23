@@ -52,7 +52,7 @@ namespace CIG
 			enum CHESSMAN_TYPES
 			{
 				NOCHESSMAN = -1,
-				// TO-DO //CHESS,										//跳棋只有一种棋子
+				CHESS,										//跳棋只有一种棋子
 				CHESSMAN_TYPE_NUM,			//总数
 			};
 
@@ -88,8 +88,8 @@ namespace CIG
 				ALLY,
 			};
 
-			static const int INI_BOARD_WIDTH_LOG2 = 5;				// TO-DO
-			static const int INI_BOARD_HEIGHT_LOG2 = 5;			// TO-DO
+			static const int INI_BOARD_WIDTH_LOG2 = 4;				// TO-DO
+			static const int INI_BOARD_HEIGHT_LOG2 = 4;			// TO-DO
 
 			static int INI_CHESSMAN_NUM_OF_ONE_PLAYER;
 			static bool CHESSMAN_IN_LATTICE;

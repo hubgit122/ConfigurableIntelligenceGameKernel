@@ -112,6 +112,7 @@ afx_msg LRESULT CConfigurableIntelligenceGameView::OnMoveComplete(WPARAM wParam,
 {
 	getMove = false;
 	DrawBoard();
+	this->moveOfLastRound.clear();
 
 	if (nowBoard.gameOver())
 	{
@@ -229,14 +230,14 @@ void CConfigurableIntelligenceGameView::DrawBoard( Chessboard* cb/*= NULL*/, Mov
 	{
 		ostringstream oss;
 
-		oss << "当前玩家: " << boardToDraw.nowTurn;
+		oss << "当前玩家: " << GUI::playerName[boardToDraw.nowTurn];
 		if (boardToDraw.players[boardToDraw.nowTurn].makeBestMove==GUI::askForMove)
 		{
-			oss<<"请等待电脑走棋";
+			oss<<"当前是玩家操作的回合, 请走棋: ";
 		}
 		else
 		{
-			oss<<"当前是玩家操作的回合, 请走棋";
+			oss<<"请等待电脑走棋... ";
 		}
 		if (moveToDraw.size)
 		{
