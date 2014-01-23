@@ -8,7 +8,7 @@
 
 void CIG::MotionGenerator::generateMoves( bool guiInput )
 {
-	if (chessboard.loose[chessboard.nowTurn] || chessboard.win[chessboard.nowTurn])
+	if (chessboard.gameOver())
 	{
 		return;								//如果已经输了或赢了, 就不产生走法, 走法栈是空的.
 	}
@@ -119,7 +119,7 @@ bool CIG::MotionGenerator::generateRecursively( Move& logMotionStack, OperationS
 				else if (count > 1)
 				{
 					;//让玩家自己选择
-					//optemp =
+					//tmpMotion =
 				}
 
 				result = false;
@@ -473,8 +473,8 @@ bool CIG::MotionGenerator::testAndSave( CIGRuleConfig::OPERATIONS s, Chessman* c
 
 		case CIG::CIGRuleConfig::ADD:
 		{
-			Motion optemp(ChessmanIndex(), CIGRuleConfig::ADD, dist);
-			runningMotionStack.push(optemp);
+			Motion tmpMotion(ChessmanIndex(), CIGRuleConfig::ADD, dist);
+			runningMotionStack.push(tmpMotion);
 			return true;
 		}
 		break;
@@ -484,8 +484,8 @@ bool CIG::MotionGenerator::testAndSave( CIGRuleConfig::OPERATIONS s, Chessman* c
 			if (chessboard.onPickIntent(c))
 			{
 				chessboard.undoPick(c, c->coordinate);
-				Motion optemp(c->chessmanIndex, CIGRuleConfig::PICK, c->coordinate);
-				runningMotionStack.push(optemp);
+				Motion tmpMotion(c->chessmanIndex, CIGRuleConfig::PICK, c->coordinate);
+				runningMotionStack.push(tmpMotion);
 			}
 		}
 		break;
@@ -497,8 +497,8 @@ bool CIG::MotionGenerator::testAndSave( CIGRuleConfig::OPERATIONS s, Chessman* c
 			if (chessboard.onPutIntent(c, dist))
 			{
 				chessboard.undoPut(c, preP);
-				Motion optemp(c->chessmanIndex, s, dist, preP);
-				runningMotionStack.push(optemp);
+				Motion tmpMotion(c->chessmanIndex, s, dist, preP);
+				runningMotionStack.push(tmpMotion);
 
 				return true;
 			}
@@ -512,8 +512,8 @@ bool CIG::MotionGenerator::testAndSave( CIGRuleConfig::OPERATIONS s, Chessman* c
 			if (chessboard.onCaptureIntent(c, dist))
 			{
 				chessboard.undoCaptured(temp);
-				Motion optemp(temp->chessmanIndex, s, dist);
-				runningMotionStack.push(optemp);
+				Motion tmpMotion(temp->chessmanIndex, s, dist);
+				runningMotionStack.push(tmpMotion);
 
 				return true;
 			}

@@ -59,16 +59,18 @@ namespace CIG
 			if (vl > vlBest)      // 找到最佳值(但不能确定是Alpha、PV还是Beta走法)
 			{
 				vlBest = vl;        // "vlBest"就是目前要返回的最佳值，可能超出Alpha-Beta边界
+				nowBestMove.forceCopyFrom(runningMoveStack[i]);
 
-				if (vl >= beta)   // 找到一个Beta走法
+				if (CIGRuleConfig::PLAYER_NUM==2)
 				{
-					nowBestMove.forceCopyFrom(runningMoveStack[i]);		// TO-DO保存到历史表有什么用? 为什么是beta?
-					break;            // Beta截断
-				}
-				else if (vl > alpha)   // 找到一个PV走法
-				{
-					nowBestMove.forceCopyFrom(runningMoveStack[i]);
-					alpha = vl;     // 缩小Alpha-Beta边界
+					if (vl >= beta)   // 找到一个Beta走法
+					{
+							break;            // Beta截断
+					}
+					else if (vl > alpha)   // 找到一个PV走法
+					{
+						alpha = vl;     // 缩小Alpha-Beta边界
+					}
 				}
 			}
 		}
