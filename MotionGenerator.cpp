@@ -207,21 +207,19 @@ void CIG::MotionGenerator::generateMotionsForOneOperation( OperationStack& opera
 			break;
 
 		case CIGRuleConfig::ADD:
-			for (int i = 0; i < (1 << CIGRuleConfig::INI_BOARD_WIDTH_LOG2) ; ++i)
+			for (int i=0; i< (1<<CIGRuleConfig::INI_BOARD_WIDTH_LOG2) ;++i)
 			{
-				for (int j = 0; j < (1 << CIGRuleConfig::INI_BOARD_HEIGHT_LOG2); ++j)
+				for (int j=0;j< (1<<CIGRuleConfig::INI_BOARD_HEIGHT_LOG2);++j)
 				{
-					PointOrVector dist =  PointOrVector(i, j);
-
-					if (chessboard[dist] || !CIGRuleConfig::BOARD_RANGE[j][i])
+					PointOrVector dist =  PointOrVector(i,j);
+					if (chessboard[dist]||!CIGRuleConfig::BOARD_RANGE[j][i])
 					{
 						continue;
 					}
-
+			
 					testAndSave(s, NULL, dist, runningMotionStack);
 				}
 			}
-
 			break;
 
 		case CIGRuleConfig::PICK:
@@ -258,9 +256,11 @@ void CIG::MotionGenerator::generateMotionsForOneOperation( OperationStack& opera
 				break;
 			}
 
-			switch (c->chessmanType)
+			switch (c->chessmanType)				//生成象棋走法, 改变棋子的坐标.
 			{
-				// TO-DO
+			case CIGRuleConfig::CHESS:
+				ChessmanIndex& cl = chessboard.pickedChessmanByIndex[-1];
+				testAndSave(s, &chessboard.players[cl.player].ownedChessmans[cl.index], logMotionStack.top().distination, runningMotionStack);
 			}
 		}
 		break;

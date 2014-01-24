@@ -112,7 +112,6 @@ afx_msg LRESULT CConfigurableIntelligenceGameView::OnMoveComplete(WPARAM wParam,
 {
 	getMove = false;
 	DrawBoard();
-	this->moveOfLastRound.clear();
 
 	if (nowBoard.gameOver())
 	{
