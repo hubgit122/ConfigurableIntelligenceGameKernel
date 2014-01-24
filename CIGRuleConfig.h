@@ -52,7 +52,13 @@ namespace CIG
 			enum CHESSMAN_TYPES
 			{
 				NOCHESSMAN = -1,
-				CHESS,										//跳棋只有一种棋子
+				KING,								//将
+				ADVISOR,							//士
+				ELEPHANT,						//象
+				HORSE,								//马
+				CHAROIT,							//车
+				CANNON,						//炮
+				PAWN,								//兵
 				CHESSMAN_TYPE_NUM,			//总数
 			};
 
@@ -103,6 +109,7 @@ namespace CIG
 
 			static const bool BOARD_RANGE[1 << INI_BOARD_HEIGHT_LOG2][1 << INI_BOARD_WIDTH_LOG2];
 			static const CHESSMAN_TYPES INI_BOARD[PLAYER_NUM][1 << INI_BOARD_HEIGHT_LOG2][1 << INI_BOARD_WIDTH_LOG2];
+			static const int EVALUATIONS[PLAYER_NUM][CHESSMAN_TYPE_NUM][1 << INI_BOARD_HEIGHT_LOG2][1 << INI_BOARD_WIDTH_LOG2];
 	};
 }
 

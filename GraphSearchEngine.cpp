@@ -133,7 +133,7 @@ namespace CIG
 
 	Chessboard* GraphSearchEngine::pChessboard = NULL;
 
-	const int GraphSearchEngine::LIMIT_DEPTH = 2;    // 最大的搜索深度// TO-DO
+	const int GraphSearchEngine::LIMIT_DEPTH = 3;    // 最大的搜索深度// TO-DO
 
 	CIG::Move GraphSearchEngine::bestMove;
 }
