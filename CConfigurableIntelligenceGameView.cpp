@@ -230,18 +230,20 @@ void CConfigurableIntelligenceGameView::DrawBoard( Chessboard* cb/*= NULL*/, Mov
 	{
 		ostringstream oss;
 
-		oss << "当前玩家: " << GUI::playerName[boardToDraw.nowTurn];
-		if (boardToDraw.players[boardToDraw.nowTurn].makeBestMove==GUI::askForMove)
+		oss << "当前玩家: " << GUI::playerName[boardToDraw.nowTurn] << ". ";
+
+		if (boardToDraw.players[boardToDraw.nowTurn].makeBestMove == GUI::askForMove)
 		{
-			oss<<"当前是玩家操作的回合, 请走棋: ";
+			oss << "当前是玩家操作的回合, 请走棋: ";
 		}
 		else
 		{
-			oss<<"请等待电脑走棋... ";
+			oss << "请等待电脑走棋... ";
 		}
+
 		if (moveToDraw.size)
 		{
-			for (int i = 0; i < moveToDraw.size; ++i)
+			for (int i = 1; i < moveToDraw.size; ++i)			//不显示begin
 			{
 				oss << CIGRuleConfig::OPERATION_NAME[moveToDraw[i].operation] << ' ';
 				oss << moveToDraw[i].distination << "->";
@@ -304,7 +306,7 @@ void CConfigurableIntelligenceGameView::DrawBoard( Chessboard* cb/*= NULL*/, Mov
 					TransparentBlt2(memClientDC.m_hDC, roundInt(xy.x[0] - GUI::chessmanRect.x[0] / 2), roundInt(xy.x[1] - GUI::chessmanRect.x[1] / 2), roundInt(GUI::chessmanRect.x[0]), roundInt(GUI::chessmanRect.x[1]), chessDC.m_hDC, 0, 0, bm.bmWidth, bm.bmHeight, RGB(0, 255, 0));
 
 					memClientDC.SetTextColor(GUI::playerColor[p]);
-					memClientDC.DrawText(GUI::chessmanName[boardToDraw.players[p].ownedChessmans[c].chessmanType], &CRect(xy.x[0] - roundInt(GUI::chessmanRect.x[0] / 2), roundInt(xy.x[1] - GUI::chessmanRect.x[1] / 2), roundInt(xy.x[0] + GUI::chessmanRect.x[0] / 2), xy.x[1] + GUI::chessmanRect.x[1] / 2), DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+					memClientDC.DrawText(CString(GUI::chessmanName[boardToDraw.players[p].ownedChessmans[c].chessmanType]), &CRect(xy.x[0] - roundInt(GUI::chessmanRect.x[0] / 2), roundInt(xy.x[1] - GUI::chessmanRect.x[1] / 2), roundInt(xy.x[0] + GUI::chessmanRect.x[0] / 2), xy.x[1] + GUI::chessmanRect.x[1] / 2), DT_SINGLELINE | DT_CENTER | DT_VCENTER);
 					chessDC.SelectObject(pBoardBaseDCBmpOld);
 				}
 				else

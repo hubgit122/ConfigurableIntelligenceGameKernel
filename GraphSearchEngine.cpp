@@ -79,7 +79,7 @@ namespace CIG
 		if (vlBest <= -Chessboard::WIN_VALUE )
 		{
 			// 如果是杀棋，就根据杀棋步数给出评价
-			return nowBoard.nowRound - Chessboard::MATE_VALUE;
+			return nowBoard.getEvaluation((CIGRuleConfig::PLAYER_NAMES)(nowBoard.nowTurn - 1 + ((-!(long long)nowBoard.nowTurn)&CIGRuleConfig::PLAYER_NUM))) - nowBoard.nowRound;
 		}
 
 		if (nowBestMove.size != 0)
@@ -94,7 +94,6 @@ namespace CIG
 			}
 		}
 
-		//return vlBest;						//通过vlBest选出最佳走法, 但是并不能返回这个值, 而是对应的前一玩家的评估值.
 		nowBoard.onMoveIntent(nowBestMove, true);
 		int preBest = nowBoard.getEvaluation((CIGRuleConfig::PLAYER_NAMES)(nowBoard.nowTurn - 1 + ((-!(long long)nowBoard.nowTurn)&CIGRuleConfig::PLAYER_NUM)));
 		nowBoard.undoMove(nowBestMove, true);

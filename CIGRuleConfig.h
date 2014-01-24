@@ -24,24 +24,6 @@ namespace CIG
 				管理全局类型id及名字
 			**************************************************************************/
 		public:
-			//enum CLASS_TYPES
-			//{
-			//	GAME_CLASS,
-			//	PLAYER,
-			//	PLAYERS,
-			//	CHESSMAN_OPERATIONS,
-			//	OPERATION_STACK,
-			//	CHESSMAN_MOTION_STACK,
-			//	MOTION_STATUS,
-			//	POINTS,
-			//	LINES,
-			//	CHESSMAN,
-			//	CHESSMAN_MOTION,
-			//	CHESSMAN_GROUP,
-			//	CHESSBOARD_STACK,
-			//	LATTICE_GROUP
-			//};
-
 			enum PLAYER_NAMES
 			{
 				HUMAN,
@@ -52,7 +34,7 @@ namespace CIG
 			enum CHESSMAN_TYPES
 			{
 				NOCHESSMAN = -1,
-				CHESS,										//跳棋只有一种棋子
+				// TO-DO加入棋子类型名称
 				CHESSMAN_TYPE_NUM,			//总数
 			};
 
@@ -88,8 +70,8 @@ namespace CIG
 				ALLY,
 			};
 
-			static const int INI_BOARD_WIDTH_LOG2 = 4;				// TO-DO
-			static const int INI_BOARD_HEIGHT_LOG2 = 4;			// TO-DO
+			static const int INI_BOARD_WIDTH_LOG2 = 5;				// TO-DO确定棋盘大小
+			static const int INI_BOARD_HEIGHT_LOG2 = 5;			// TO-DO
 
 			static int INI_CHESSMAN_NUM_OF_ONE_PLAYER;
 			static bool CHESSMAN_IN_LATTICE;
@@ -103,6 +85,7 @@ namespace CIG
 
 			static const bool BOARD_RANGE[1 << INI_BOARD_HEIGHT_LOG2][1 << INI_BOARD_WIDTH_LOG2];
 			static const CHESSMAN_TYPES INI_BOARD[PLAYER_NUM][1 << INI_BOARD_HEIGHT_LOG2][1 << INI_BOARD_WIDTH_LOG2];
+			// TO-DOstatic const int EVALUATIONS[PLAYER_NUM][CHESSMAN_TYPE_NUM][1 << INI_BOARD_HEIGHT_LOG2][1 << INI_BOARD_WIDTH_LOG2];
 	};
 }
 

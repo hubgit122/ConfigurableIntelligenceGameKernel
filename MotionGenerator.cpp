@@ -21,6 +21,7 @@ void CIG::MotionGenerator::generateMoves( bool guiInput )
 		OperationStack operationStack;
 
 		operationStack.push(CIGRuleConfig::BEGIN);
+		logMotionStack.push(Motion(ChessmanIndex(), CIGRuleConfig::BEGIN));
 		result = generateRecursively(logMotionStack, operationStack, guiInput);
 		//operationStack.popNoReturn();
 	}
@@ -53,9 +54,9 @@ bool CIG::MotionGenerator::generateRecursively( Move& logMotionStack, OperationS
 		switch (msg)
 		{
 			case CIG_END:
-				for (int i=0; (CIGRuleConfig::operationGraph[logMotionStack.top().operation][i]!=CIGRuleConfig::NOMORE)&&(i<CIGRuleConfig::END+1); ++i)
+				for (int i = 0; (CIGRuleConfig::operationGraph[logMotionStack.top().operation][i] != CIGRuleConfig::NOMORE) && (i < CIGRuleConfig::END + 1); ++i)
 				{
-					if (CIGRuleConfig::operationGraph[logMotionStack.top().operation][i]==CIGRuleConfig::END)
+					if (CIGRuleConfig::operationGraph[logMotionStack.top().operation][i] == CIGRuleConfig::END)
 					{
 						if(chessboard.onChangeTurn())
 						{
@@ -206,19 +207,21 @@ void CIG::MotionGenerator::generateMotionsForOneOperation( OperationStack& opera
 			break;
 
 		case CIGRuleConfig::ADD:
-			for (int i=0; i< (1<<CIGRuleConfig::INI_BOARD_WIDTH_LOG2) ;++i)
+			for (int i = 0; i < (1 << CIGRuleConfig::INI_BOARD_WIDTH_LOG2) ; ++i)
 			{
-				for (int j=0;j< (1<<CIGRuleConfig::INI_BOARD_HEIGHT_LOG2);++j)
+				for (int j = 0; j < (1 << CIGRuleConfig::INI_BOARD_HEIGHT_LOG2); ++j)
 				{
-					PointOrVector dist =  PointOrVector(i,j);
-					if (chessboard[dist]||!CIGRuleConfig::BOARD_RANGE[j][i])
+					PointOrVector dist =  PointOrVector(i, j);
+
+					if (chessboard[dist] || !CIGRuleConfig::BOARD_RANGE[j][i])
 					{
 						continue;
 					}
-			
+
 					testAndSave(s, NULL, dist, runningMotionStack);
 				}
 			}
+
 			break;
 
 		case CIGRuleConfig::PICK:
@@ -255,11 +258,9 @@ void CIG::MotionGenerator::generateMotionsForOneOperation( OperationStack& opera
 				break;
 			}
 
-			switch (c->chessmanType)				//生成象棋走法, 改变棋子的坐标.
+			switch (c->chessmanType)
 			{
-			case CIGRuleConfig::CHESS:
-				ChessmanIndex& cl = chessboard.pickedChessmanByIndex[-1];
-				testAndSave(s, &chessboard.players[cl.player].ownedChessmans[cl.index], logMotionStack.top().distination, runningMotionStack);
+				// TO-DO
 			}
 		}
 		break;

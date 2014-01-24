@@ -68,8 +68,8 @@ namespace CIG
 			static float lengthOfLattticeY;
 			static PointOrVector_Float Vx;
 			static PointOrVector_Float Vy;
-			static CString chessmanName[CIGRuleConfig::CHESSMAN_TYPE_NUM];
-			static CString playerName[CIGRuleConfig::PLAYER_NUM];
+			static const char* chessmanName[CIGRuleConfig::CHESSMAN_TYPE_NUM];
+			static const char* playerName[CIGRuleConfig::PLAYER_NUM];
 			static COLORREF playerColor[CIGRuleConfig::PLAYER_NUM];
 			static float borderWidth;
 			static vector<PointOrVector> LINE_DIRECTION;
